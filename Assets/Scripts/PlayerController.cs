@@ -4,9 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class PlayerController : MonoBehaviour
 {
-    public static Vector3 PlayerPosition = new Vector3(0, -2.82f, 0);
+    public static Vector3 PlayerPosition;
+    public static bool canJump = true;
     private Rigidbody2D rb;
-    private bool canJump = true;
 
     private float maxJumpForce = 10f;
     private float maxTouchTime = 5f;
@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private float TouchDurationTime;
 
     private void Start(){
+        PlayerPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -38,7 +39,7 @@ public class PlayerController : MonoBehaviour
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 direction = new Vector2(transform.position.x - mousePosition.x, transform.position.y - mousePosition.y);
             float force = maxJumpForce * TouchDurationTime / maxTouchTime;
-            rb.velocity = new Vector2(rb.velocity.x, 0f); // È·±£YÖáËÙ¶ÈÎª0£¬·ÀÖ¹Á¬ÐøÌøÔ¾µþ¼Ó
+            rb.velocity = new Vector2(rb.velocity.x, 0f); // È·ï¿½ï¿½Yï¿½ï¿½ï¿½Ù¶ï¿½Îª0ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½
             rb.AddForce(direction * force, ForceMode2D.Impulse);
             canJump = false;
         }
@@ -47,7 +48,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision){
         if (collision.gameObject.CompareTag("Ground"))
         {
-            canJump = true; // ÂäµØºó¿ÉÒÔÔÙ´ÎÌøÔ¾
+            canJump = true; // ï¿½ï¿½Øºï¿½ï¿½ï¿½ï¿½ï¿½Ù´ï¿½ï¿½ï¿½Ô¾
         }
     }
 }

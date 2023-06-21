@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
 
    private void FixedUpdate()
     {
+        // Debug.Log("PlayerPosition: " + PlayerController.PlayerPosition.y);
         transform.position = new Vector2(transform.position.x, PlayerController.PlayerPosition.y + offset.y);
         CameraPosition = transform.position;
     }
