@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     private float TouchStartTime;
     private float TouchDurationTime;
 
+    public AudioSource music;
+    public AudioClip jump;//添加跳跃音效
+    public bool canPlay;
+
     private void Start(){
         PlayerPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
@@ -20,16 +24,23 @@ public class PlayerController : MonoBehaviour
 
     private void Update(){
         PlayerPosition = transform.position;
-        if (Input.GetMouseButtonUp(0) && canJump)
+        if (Input.GetMouseButtonUp(0) && canJump && canPlay)
         {
             TouchDurationTime = Time.time - TouchStartTime;
             TouchDurationTime = TouchDurationTime > maxTouchTime ? maxTouchTime : TouchDurationTime;
             Jump();
+            //把音源music的音效设置为jump
+            music.clip = jump;
+            //播放音效
+            music.Play();
+            canPlay = false;
         }
 
         if (Input.GetMouseButtonDown(0) && canJump) {
             TouchStartTime = Time.time;
         }
+
+
     }
 
     private void Jump(){
@@ -49,6 +60,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             canJump = true; // ��غ�����ٴ���Ծ
+            canPlay = true;
         }
     }
 }
